@@ -4,19 +4,25 @@ import FormControl from '@material-ui/core/FormControl';
 import Collapse from '@material-ui/core/Collapse';
 import Select from '@material-ui/core/Select';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+import { Link } from "react-router-dom";
 import terminService from '../../service/terminService';
 import "./termin.scss"
 const Termin = () => {
     const [behandlungList, setBehandungList] = useState([])
     const [selectedBehandlung, setSelectedBehandung] = useState()
-    const [selectedDateID, setSelectedDateID] = useState()
-    const [selectedHourID, setSelectedHourID] = useState()
+    const [selectedDate, setSelectedDateID] = useState()
+    const [selectedHour, setSelectedHourID] = useState()
     const [aktulleZeit, setAktulleZeit] = useState([])
-
+    const [showTerminForm, setShowTerminForm] = useState(false)
+    const [userDetails, setUserDetails] = useState({
+        name: "",
+        telefonNummner: "",
+        störnieren: false,
+        datenSchutz: false,
+        code: ""
+    })
     useEffect(() => {
         terminService.getAvalable().then((res) => {
-            console.log("res=",res.data)
             setAktulleZeit(res.data)
         }).catch((err) => {
             console.log("error getAvalable=", err)
@@ -35,6 +41,16 @@ const Termin = () => {
     const handleSelectTime = (dateId, hourId) => {
         setSelectedHourID(hourId)
         setSelectedDateID(dateId)
+    }
+    const HandleChangeUserDetail = (event) => {
+        let value;
+        if (event.target.type === "checkbox")
+            value = event.target.checked;
+        else value = event.target.value;
+
+        setUserDetails((oldUserDetail) => {
+            return { ...oldUserDetail, [event.target.id]: value }
+        })
     }
     return (
         <div className="termin">
@@ -56,21 +72,30 @@ const Termin = () => {
             </FormControl>
             <Collapse in={selectedBehandlung} style={{ width: "100%" }} classes={{ root: "collapse" }}>
                 <ul className="sprechstunden">
-                {aktulleZeit.map(item => {
-                 
+                    {aktulleZeit.map(item => {
+
                         return <li key={item.id}>
                             <div className="termin-hour">
                                 <p>{item.date}</p>
                                 <ul>
-                                {item.hours.map(hour => <li key={hour} onClick={() => handleSelectTime(item.date, hour)}>{hour + ":00"}</li>)}
-                                  
+                                    {item.hours.map(hour => <li className={hour === selectedHour && item.date === selectedDate && "hourActive"} key={hour} onClick={() => handleSelectTime(item.date, hour)}>{hour + ":00"}</li>)}
+
                                 </ul>
                             </div>
-                            <Collapse in={selectedDateID === item.date} style={{ border: "3px solid blue", padding: "2rem" }}>
+                            <Collapse in={selectedDate === item.date} style={{ border: "3px solid blue", padding: "2rem" }}>
                                 <div className="show-termin">
-                                <p>Ihr Termin ist für {behandlungList.find(item => item._id === selectedBehandlung)?.title}  am  {item.date} um  {item.hours.find(hour => hour === selectedHourID)}:00 Uhr.</p>
-                                  
-                                    Dr Yas.
+                                    <p>Ihr Termin ist für {behandlungList.find(item => item._id === selectedBehandlung)?.title}  am  {item.date} um  {item.hours.find(hour => hour === selectedHour)}:00 Uhr.</p>
+
+                                    <p>Dr Yas.</p>
+                                    {!showTerminForm && <button onClick={() => setShowTerminForm(true)}>zum Termin </button>}
+
+                                    {showTerminForm && <lable>Geben Sie bitte Ihr Name ein:<input id="name" type="text" placeholder="Geben Sie bitte Ihr Name ein!" value={userDetails.name} onChange={HandleChangeUserDetail} />  </lable>}
+
+                                    {userDetails.name.length > 3 && <label><input type="checkbox" id="störnieren" checked={userDetails.störnieren} onChange={HandleChangeUserDetail} />Sollten Sie Ihren Termin nicht wahrnehmen können, sagen Sie diesen bitte min. 24 Stunden vorher ab.</label>}
+
+                                    {userDetails.störnieren && <lable>Geben Sie bitte Ihre TelefonNummer ein: <input id="telefonNummner" type="number" placeholder="Geben Sie bitte Ihre TelefonNummer ein!" value={userDetails.telefonNummner} onChange={HandleChangeUserDetail} /> </lable>}
+
+                                    {userDetails.telefonNummner.length >= 5 && <label><input type="checkbox" id="datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich akzeptiere die <Link to="#" target="_black">Allgemeinen Geschäftsbedingungen (AGB)</Link> und die Datenschutzerklärung von Dr.Yas sarab.</label>}
                                 </div>
                             </Collapse>
                         </li>

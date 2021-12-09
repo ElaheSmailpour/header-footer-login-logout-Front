@@ -27,8 +27,38 @@
                     background: pink;
                     padding: 0.5rem;
                     font-weight: bold;
+                    &.hourActive{
+                        background-color: aquamarine;
+                    }
                 }
             }
         }
+        .show-termin {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            &>*{
+                margin-bottom: 1rem;
+            }
+            p {
+                font-size: 16px;
+                font-family: sans-serif;
+                font-weight: bold;
+            }
+            lable {
+                font-size: 18px;
+                font-family: sans-serif;
+                font-weight: bold;
+            }
+    
+            button {
+                background: lightseagreen;
+                padding: 1rem;
+                cursor: pointer;
+                font-size: 20px;
+            }
+    
     }
+   
+}
 }
