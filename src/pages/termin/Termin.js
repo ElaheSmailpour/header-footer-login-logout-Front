@@ -9,34 +9,28 @@ import terminService from '../../service/terminService';
 import "./termin.scss"
 const Termin = () => {
     const [behandlungList, setBehandungList] = useState([])
-    const [behandlung, setBehandung] = useState()
+    const [selectedBehandlung, setSelectedBehandung] = useState()
     const [selectedDateID, setSelectedDateID] = useState()
     const [selectedHourID, setSelectedHourID] = useState()
-    const [aktulleZeit, setAktulleZeit] = useState([
-        {
-            time: moment().format("dddd D.M.YYYY"),
-            hours: [
-                { id: 1, hour: "14:00" }, { id: 2, hour: "15:00" }, { id: 3, hour: "16:00" }
-            ]
-        },
-        {
-            time: moment().add("days", 1).format("dddd D.M.YYYY"),
-            hours: [
-                { id: 1, hour: "14:00" }, { id: 2, hour: "15:00" }, { id: 3, hour: "16:00" }
-            ]
+    const [aktulleZeit, setAktulleZeit] = useState([])
 
-        }
-    ])
-
+    useEffect(() => {
+        terminService.getAvalable().then((res) => {
+            console.log("res=",res.data)
+            setAktulleZeit(res.data)
+        }).catch((err) => {
+            console.log("error getAvalable=", err)
+        })
+    }, [])
     useEffect(() => {
         terminService.getbehandlung().then((res) => {
             setBehandungList(res.data)
         }).catch((err) => {
-            console.log("err getbehandlung", err)
+            console.log("error getbehandlung=", err)
         })
     }, [])
     const handleChangeBehandlung = (event) => {
-        setBehandung(event.target.value);
+        setSelectedBehandung(event.target.value);
     };
     const handleSelectTime = (dateId, hourId) => {
         setSelectedHourID(hourId)
@@ -49,30 +43,33 @@ const Termin = () => {
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={behandlung}
+                    value={selectedBehandlung}
                     label="Age"
                     onChange={handleChangeBehandlung}
                 >
-                    {behandlungList.map((item)=>{
-                       return  <MenuItem value={item._id}>{item.title}</MenuItem>
+                    {behandlungList.map((item, index) => {
+                        return <MenuItem key={index} value={item._id} >{item.title}</MenuItem>
                     })}
-                   
+
+
                 </Select>
             </FormControl>
-            <Collapse in={behandlung} style={{ width: "100%" }} classes={{ root: "collapse" }}>
+            <Collapse in={selectedBehandlung} style={{ width: "100%" }} classes={{ root: "collapse" }}>
                 <ul className="sprechstunden">
-                    {aktulleZeit.map(item => {
+                {aktulleZeit.map(item => {
+                 
                         return <li key={item.id}>
                             <div className="termin-hour">
-                                <p>{item.time}</p>
+                                <p>{item.date}</p>
                                 <ul>
-                                    {item.hours.map(hour => <li onClick={() => handleSelectTime(item.id, hour.id)}>{hour.hour}</li>)}
+                                {item.hours.map(hour => <li key={hour} onClick={() => handleSelectTime(item.date, hour)}>{hour + ":00"}</li>)}
+                                  
                                 </ul>
                             </div>
-                            <Collapse in={selectedDateID === item.id} style={{ border: "3px solid blue", padding: "2rem" }}>
+                            <Collapse in={selectedDateID === item.date} style={{ border: "3px solid blue", padding: "2rem" }}>
                                 <div className="show-termin">
-
-                                    Ihr Termim am {item.time} um {item.hours.find(hour => hour.id === selectedHourID)?.hour} Uhr.
+                                <p>Ihr Termin ist für {behandlungList.find(item => item._id === selectedBehandlung)?.title}  am  {item.date} um  {item.hours.find(hour => hour === selectedHourID)}:00 Uhr.</p>
+                                  
                                     Dr Yas.
                                 </div>
                             </Collapse>
