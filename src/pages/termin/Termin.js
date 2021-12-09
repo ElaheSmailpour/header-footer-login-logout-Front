@@ -3,10 +3,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Collapse from '@material-ui/core/Collapse';
 import Select from '@material-ui/core/Select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
+import terminService from '../../service/terminService';
 import "./termin.scss"
 const Termin = () => {
+    const [behandlungList, setBehandungList] = useState([])
     const [behandlung, setBehandung] = useState()
     const [selectedDateID, setSelectedDateID] = useState()
     const [selectedHourID, setSelectedHourID] = useState()
@@ -18,13 +20,21 @@ const Termin = () => {
             ]
         },
         {
-            time: moment().add("days",1).format("dddd D.M.YYYY"),
+            time: moment().add("days", 1).format("dddd D.M.YYYY"),
             hours: [
                 { id: 1, hour: "14:00" }, { id: 2, hour: "15:00" }, { id: 3, hour: "16:00" }
             ]
 
         }
     ])
+
+    useEffect(() => {
+        terminService.getbehandlung().then((res) => {
+            setBehandungList(res.data)
+        }).catch((err) => {
+            console.log("err getbehandlung", err)
+        })
+    }, [])
     const handleChangeBehandlung = (event) => {
         setBehandung(event.target.value);
     };
@@ -43,9 +53,10 @@ const Termin = () => {
                     label="Age"
                     onChange={handleChangeBehandlung}
                 >
-                    <MenuItem value={10}>Kontrolle</MenuItem>
-                    <MenuItem value={20}>Implantant</MenuItem>
-                    <MenuItem value={30}>Schmerzen</MenuItem>
+                    {behandlungList.map((item)=>{
+                       return  <MenuItem value={item._id}>{item.title}</MenuItem>
+                    })}
+                   
                 </Select>
             </FormControl>
             <Collapse in={behandlung} style={{ width: "100%" }} classes={{ root: "collapse" }}>
