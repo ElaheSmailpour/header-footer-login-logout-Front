@@ -1,0 +1,34 @@
+.termin {
+    padding: 2rem;
+    &-select {
+        width: 50%;
+        text-align: center;
+    }
+    .sprechstunden {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        li {
+            div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            ul {
+                list-style: none;
+                padding: unset;
+                margin: unset;
+                display: flex;
+                li {
+                    margin-left: 1rem;
+                    cursor: pointer;
+                    background: pink;
+                    padding: 0.5rem;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
