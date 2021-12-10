@@ -120,7 +120,7 @@ const Termin = () => {
                                     {userDetails.störnieren && <lable>Geben Sie bitte Ihre TelefonNummer ein: <input id="telefonNummner" type="number" placeholder="Geben Sie bitte Ihre TelefonNummer ein!" value={userDetails.telefonNummner} onChange={HandleChangeUserDetail} /> </lable>}
 
                                     {userDetails.telefonNummner.length >= 5 && <label><input type="checkbox" id="datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich akzeptiere die <Link to="#" target="_black">Allgemeinen Geschäftsbedingungen (AGB)</Link> und die Datenschutzerklärung von Dr.Yas sarab.</label>}
-                                    {userDetails.datenSchutz && <button onClick={handleBestätigung}>Termin Bestätigung</button>}
+                                    {userDetails.datenSchutz && !codesenden && <button onClick={handleBestätigung}>Termin Bestätigung</button>}
                                     {codesenden && <label>Code:<input type="text" placeholder='code' value={userDetails.code} id="code" onChange={HandleChangeUserDetail} /></label>}
                                     {codesenden && <button onClick={handleBuchen}>Buchen</button>}
                                 </div>

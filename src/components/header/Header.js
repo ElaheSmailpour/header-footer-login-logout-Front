@@ -26,7 +26,7 @@ const Header = () => {
                     <li><a href="#"> Kontakt</a></li>
                     <li onClick={() => setOpenSubMenu(!openSubMenu)}><a href="#"> Leistungen</a>
                         {isMobileSize ?
-                            <Collapse in={openSubMenu} style={{ width: "100%" }}  classes={{ root: "collapse" }}>
+                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
                                 <ul>
                                     <li><a href="#"> Link1</a></li>
                                     <li><a href="#"> Link2</a></li>
@@ -42,7 +42,22 @@ const Header = () => {
                             </ul>
                         }
                     </li>
-                    <li><Link to="/termin"> Termin vereinbaren</Link></li>
+                    <li>Termin vereinbaren
+                        {isMobileSize ?
+                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
+                                <ul>
+                                    <li><Link to="/termin"> Termin vereinbaren</Link></li>
+                                    <li><Link to="/störnieren">Termin störnieren</Link></li>
+
+                                </ul>
+                            </Collapse> :
+                            <ul>
+                                <li><Link to="/termin"> Termin vereinbaren</Link></li>
+                                <li><Link to="/störnieren">Termin störnieren</Link></li>
+
+                            </ul>
+                        }
+                    </li>
                 </ul>
             </nav>
 
