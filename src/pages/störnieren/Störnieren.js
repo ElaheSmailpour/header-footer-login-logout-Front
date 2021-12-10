@@ -32,7 +32,7 @@ const Störnieren = () => {
             <button onClick={terminList}>Termin List</button>
             <ul>
                 {terminListData.map((item, index) => {
-                    return <li key={index}><p>Ihr Temin ist am :{item.date} um {item.time}Uhr. </p><button onClick={() => TerminStörnieren(item._id)}>Termin Störnieren</button></li>
+                    return <li key={index}><p>{item.userId.name} Ihr Temin ist am :{item.date} um {item.time}Uhr. </p><button onClick={() => TerminStörnieren(item._id)}>Termin Störnieren</button></li>
                 })}
             </ul>
         </div>

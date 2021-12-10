@@ -23,6 +23,12 @@ class terminService {
   static terminRemoveApi(terminId) {
     return axios.get("/termin/terminRemove/" + terminId)
   }
+  static RegisterApi(body) {
+    return axios.post("/register/signup", body)
+  }
+  static loginApi(body) {
+    return axios.post("/register/login", body)
+  }
 }
 
 export default terminService
