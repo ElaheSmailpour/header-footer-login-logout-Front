@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import terminService from '../../service/terminService';
 import "./termin.scss"
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const Termin = () => {
     const [behandlungList, setBehandungList] = useState([])
     const [selectedBehandlung, setSelectedBehandung] = useState()
@@ -14,6 +15,7 @@ const Termin = () => {
     const [selectedHour, setSelectedHourID] = useState()
     const [aktulleZeit, setAktulleZeit] = useState([])
     const [showTerminForm, setShowTerminForm] = useState(false)
+    const [codesenden, setCodeSenden] = useState(false)
     const [userDetails, setUserDetails] = useState({
         name: "",
         telefonNummner: "",
@@ -21,6 +23,7 @@ const Termin = () => {
         datenSchutz: false,
         code: ""
     })
+    const history=useHistory()
     useEffect(() => {
         terminService.getAvalable().then((res) => {
             setAktulleZeit(res.data)
@@ -46,10 +49,31 @@ const Termin = () => {
         let value;
         if (event.target.type === "checkbox")
             value = event.target.checked;
-        else value = event.target.value;
+        else
+            value = event.target.value
+        setUserDetails((oldUserDetails) => {
+            return { ...oldUserDetails, [event.target.id]: value }
+        })
 
-        setUserDetails((oldUserDetail) => {
-            return { ...oldUserDetail, [event.target.id]: value }
+    }
+    const handleBestätigung = () => {
+        terminService.getBestätigungTermin(userDetails.telefonNummner).then((res) => {
+            setCodeSenden(true)
+        }).catch((err) => {
+            console.log("err getBestätigungTermin", err)
+        })
+    }
+    const handleBuchen = () => {
+        const body = {
+            name: userDetails.name,
+            time: selectedHour,
+            date: selectedDate
+        }
+        terminService.buchenApi(userDetails.telefonNummner, userDetails.code, body).then((res) => {
+            alert("Termin gebucht!")
+            history.push("/")
+        }).catch((err) => {
+            console.log("err Buchen", err)
         })
     }
     return (
@@ -96,6 +120,9 @@ const Termin = () => {
                                     {userDetails.störnieren && <lable>Geben Sie bitte Ihre TelefonNummer ein: <input id="telefonNummner" type="number" placeholder="Geben Sie bitte Ihre TelefonNummer ein!" value={userDetails.telefonNummner} onChange={HandleChangeUserDetail} /> </lable>}
 
                                     {userDetails.telefonNummner.length >= 5 && <label><input type="checkbox" id="datenSchutz" checked={userDetails.datenSchutz} onChange={HandleChangeUserDetail} />Ich akzeptiere die <Link to="#" target="_black">Allgemeinen Geschäftsbedingungen (AGB)</Link> und die Datenschutzerklärung von Dr.Yas sarab.</label>}
+                                    {userDetails.datenSchutz && <button onClick={handleBestätigung}>Termin Bestätigung</button>}
+                                    {codesenden && <label>Code:<input type="text" placeholder='code' value={userDetails.code} id="code" onChange={HandleChangeUserDetail} /></label>}
+                                    {codesenden && <button onClick={handleBuchen}>Buchen</button>}
                                 </div>
                             </Collapse>
                         </li>
