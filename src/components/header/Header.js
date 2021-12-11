@@ -1,105 +1,29 @@
-import { useMediaQuery } from '@material-ui/core';
-import Collapse from '@material-ui/core/Collapse';
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+
+
+
 import "./header.scss"
 const Header = () => {
-    const [openSubMenu, setOpenSubMenu] = useState(false)
-    
-    const menubtnRef = useRef();
-    const menuRef = useRef();
-    const isMobileSize = useMediaQuery('(max-width:600px)');
-    const isLogin=localStorage.getItem("loginToken")
-    const handleClick = () => {
 
-        menubtnRef.current.classList.toggle("toggle")
-        menuRef.current.classList.toggle("active")
-    }
-    const logout=()=>{
-        localStorage.clear()
-        window.location.assign("/login")
-    }
     return (
         <div className="header">
 
             <img src={"/images/logo.jpeg"} alt="pic" />
-            <p>{localStorage.getItem("usernameToken")}</p>
-            <button ref={menubtnRef} className="sidebar-btn" onClick={handleClick}>
-                <span></span>
-            </button>
-            <nav ref={menuRef}>
+
+            <nav>
                 <ul>
-               
-    
-                    <li onClick={() => setOpenSubMenu(!openSubMenu)}><a href="#"> Leistungen</a>
-                        {isMobileSize ?
-                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
-                                <ul>
-                                    <li><a href="#"> Link1</a></li>
-                                    <li><a href="#"> Link2</a></li>
-                                    <li><a href="#"> Link3</a></li>
-                                    <li><a href="#"> Link4</a></li>
-                                </ul>
-                            </Collapse> :
-                            <ul>
-                                <li><a href="#"> Link1</a></li>
-                                <li><a href="#"> Link2</a></li>
-                                <li><a href="#"> Link3</a></li>
-                                <li><a href="#"> Link4</a></li>
-                            </ul>
-                        }
+
+                    <li><a href="#">Termin</a></li>
+                    <li><a href="#">Admin</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Profile</a>
+                        <ul>
+                            <li><a href="#">signup</a></li>
+                            <li><a href="#">login</a></li>
+                        </ul>
                     </li>
-                    <li>Termin vereinbaren
-                        {isMobileSize ?
-                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
-                                <ul>
-                                    <li><Link to="/termin"> Termin vereinbaren</Link></li>
-                                    <li><Link to="/störnieren">Termin störnieren</Link></li>
-
-                                </ul>
-                            </Collapse> :
-                            <ul>
-                                <li><Link to="/termin"> Termin vereinbaren</Link></li>
-                                <li><Link to="/störnieren">Termin störnieren</Link></li>
-
-                            </ul>
-                        }
-                    </li>
-
-                    <li>Admin
-                        {isMobileSize ?
-                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
-                                <ul>
-                                <li><Link to="/mangeTermin">MangeTermin</Link></li>
-
-                                </ul>
-                            </Collapse> :
-                            <ul>
-                                <li><Link to="/mangeTermin">MangeTermin</Link></li>
-
-                            </ul>
-                        }
-                    </li>
-
-                    <li>Profile
-                        {isMobileSize ?
-                            <Collapse in={openSubMenu} style={{ width: "100%" }} classes={{ root: "collapse" }}>
-                                <ul>
-                               {!isLogin && <li><Link to="/login">Login</Link></li>}
-                               {!isLogin && <li><Link to="/signup">Signup</Link></li>}
-                               {isLogin && <li onClick={logout}>Logout</li>}
-                                </ul>
-                            </Collapse> :
-                            <ul>
-                                {!isLogin && <li><Link to="/login">Login</Link></li>}
-                               {!isLogin && <li><Link to="/signup">Signup</Link></li>}
-                               {isLogin && <li onClick={logout}>Logout</li>}
-                            </ul>
-                        }
-                    </li>
+                    <li><a href="#">überuns</a></li>
                 </ul>
             </nav>
-
         </div>
     )
 }

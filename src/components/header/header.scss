@@ -1,154 +1,61 @@
 @import "../../assets/mixins";
 .header {
-    background-color: rgba(0, 255, 255, 0.815);
+    background: rgb(12, 166, 187);
     display: flex;
-    padding: 1rem 2rem;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-
-    img {
-        height: 3rem;
-    }
-    nav {
-        height: 3rem;
-        @include respond(phone) {
-            position: fixed;
-            right: -100%;
-            top: 0;
-            height: 100vh;
-            background-color: gray;
-            padding-top: 8rem;
-            transition: 0.5s;
-        }
-        &.active {
-            right: 0;
-        }
-    }
-    nav > ul {
+    padding: 1rem 2rem;
+    margin: unset;
+   position: fixed;
+   top:0;
+   left:0;
+   width:100%;
+   
+    nav>ul {
         display: flex;
-        align-items: center;
         list-style: none;
-        height: 100%;
+        align-items: center;
         margin: unset;
-        padding: unset;
-        @include respond(phone) {
-            flex-direction: column;
-            height: auto;
-        }
-        & > li {
-            &:not(:last-child) {
-                margin-right: 2rem;
-                @include respond(phone) {
-                    margin-right: unset;
-                    margin-bottom: 2rem;
-                }
-            }
-            font-size: 1rem;
-            color: white;
-            text-transform: uppercase;
-            align-items: center;
-            font-weight: 500;
-            text-align: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            @include respond(phone) {
-                height: auto;
-                padding: 1rem;
-                flex-direction: column;
-             
-            }
-            &:hover > ul {
-                display: flex !important;
-            }
-
-            a {
+        height: 3rem;
+       
+       &> li {
+            a{
                 color: inherit;
                 text-decoration: none;
+                position: relative;
             }
-            ul {
-                list-style: none;
-                width: 100%;
+        &:not(:last-child){
+                margin-right: 2rem;
+            }
+             color:white;
+             text-transform: uppercase;
+             height: 100%;
+                font-weight: bold;
                 display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                background-color: rgba(4, 120, 141, 0.815);
-                padding: unset;
-                display: none;
-                @include respond(phone) {
-                    display: block;
-                    position: relative;
-                    top:unset;
-                    margin-top: 2rem;
-                }
-               
-                li {
-                    padding: 0.5rem;
-                    border-bottom: 1px blue solid;
-                    text-align: center;
-                }
+                align-items: center;
+              
+            &:hover>ul{
+                display: flex;
+            }
+        }
+        ul{
+            list-style: none;
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top:100%;
+            background: rgb(12, 166, 187);
+            padding: unset;
+            width:6rem;
+            li{
+                padding: 0.5rem;
+                border-bottom: 1px solid gray;
+                text-align: center;
             }
         }
     }
-    .sidebar-btn {
-        box-sizing: border-box;
-        cursor: pointer;
-        background: #5f5f5f;
-        border: none;
-        outline: none;
-        height: 50px;
-        width: 50px;
-        display: none;
-        z-index: 1;
-        position: relative;
-        @include respond(phone) {
-            display: block;
-        }
-        span {
-            display: block;
-            height: 3px;
-            width: 35px;
-            background: #262626;
-            position: absolute;
-            top: 24px;
-            transition: 0.3s;
-            &:before {
-                content: "";
-                position: absolute;
-                top: -10px;
-                left: 0;
-                width: 100%;
-                background: #262626;
-                height: 3px;
-                transition: 0.3s;
-            }
-
-            &:after {
-                content: "";
-                position: absolute;
-                top: 10px;
-                left: 0;
-                width: 100%;
-                background: #262626;
-                height: 3px;
-                transition: 0.3s;
-            }
-        }
-        &.toggle span {
-            background: transparent;
-            &:before {
-                top: 0;
-                transform: rotate(45deg);
-            }
-            &:after {
-                top: 0;
-                transform: rotate(-45deg);
-            }
-        }
+    img {
+       height: 3rem;
+      
     }
 }

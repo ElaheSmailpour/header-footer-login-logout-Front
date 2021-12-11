@@ -1,10 +1,13 @@
 import "./footer.scss"
+
 const Footer = () => {
+
+
     return (
         <div className="footer">
-            <div className="footer-content">
+            <div className="kontakt-footer">
                 <h2>kontakt: </h2>
-                <p>Zahnarztpraxis Dr. Yas <br />
+                <p>Zahnarztpraxis Dr. Yas + Kollegen<br />
                     Rossstraße 100<br />
                     40476 Düsseldorf<br />
                     E-Mail: info@Zahn.de<br />
@@ -12,10 +15,14 @@ const Footer = () => {
                     Mobil/ SMS: +49 (0) 177 777777<br />
                     Fax: +49 (0) 211 21121120</p>
             </div>
-            <p className="footer-DatenSchutz">© Dr. med. dent. Yas. Impressum | Datenschutz </p>
+            <p className="footer-DatenSchutz">© Dr. med. dent. Sonia Mansour. Impressum | Datenschutz </p>
+             
+               
+              
 
-        </div>
-    )
+            </div>
+            )
 }
 
-export default Footer;
+
+            export default Footer;
