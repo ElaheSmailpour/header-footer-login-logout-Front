@@ -1,27 +1,33 @@
 
 
+import { Link } from "react-router-dom"
 
 import "./header.scss"
 const Header = () => {
-
+    const isLogin = localStorage.getItem("loginToken")
+    const logout = () => {
+        localStorage.clear();
+        window.location.assign("/")
+    }
     return (
         <div className="header">
 
             <img src={"/images/logo.jpeg"} alt="pic" />
-
+            {isLogin && <p>welcome {localStorage.getItem("usernameToken")} </p>}
             <nav>
                 <ul>
+               
+                   <li><Link to="/contact">Contact</Link></li>
+                   {isLogin &&  <li><Link to="/admin">Admin</Link></li>}
 
-                    <li><a href="#">Termin</a></li>
-                    <li><a href="#">Admin</a></li>
-                    <li><a href="#">Kontakt</a></li>
-                    <li><a href="#">Profile</a>
+                    <li>Profile
                         <ul>
-                            <li><a href="#">signup</a></li>
-                            <li><a href="#">login</a></li>
+                            {!isLogin && <li> <Link to="/signup">signup</Link></li>}
+                            {!isLogin && <li>  <Link to="/login">Login</Link></li>}
+                            {isLogin && <li onClick={logout}>Logout</li>}
                         </ul>
                     </li>
-                    <li><a href="#">überuns</a></li>
+
                 </ul>
             </nav>
         </div>
