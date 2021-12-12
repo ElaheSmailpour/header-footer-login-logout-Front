@@ -69,8 +69,8 @@ const Signup = () => {
                     <label for="password">password:</label>
                     <input type="password" id="password" name="password" value={form.password} required
                         onChange={e => handleChangeForm(e)} />
-                    <label for="password"> Repeat Password:</label>
-                    <input type="password" id="password" name="repeatPassword" value={form.repeatPassword} required
+                    <label for="repeatPassword"> Repeat Password:</label>
+                    <input type="password" id="repeatPassword" name="repeatPassword" value={form.repeatPassword} required
                         onChange={e => handleChangeForm(e)} />
                     <label for="email">Email:</label>
                     <input type="text" id="email" name="email" value={form.email} required
