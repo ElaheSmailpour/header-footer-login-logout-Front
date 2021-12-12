@@ -34,6 +34,14 @@ const Signup = () => {
 
         ApiService.RegisterApi(addsignup).then((res) => {
             alert("signup submitted successfully")
+            setForm({
+                name:"",
+                password:"",
+                repeatPassword:"",
+                email: "",
+                phone: ""
+
+            })
         }).catch((error) => {
 
             console.log(error);
