@@ -50,9 +50,9 @@ const Signup = () => {
     }
 
     const handleChangeForm = (e) => {
-        console.log(e.target, e.target.name)
+      
         const newForm = { ...form };
-        newForm[e.target.name] = e.target.value;
+        newForm[e.target.id] = e.target.value;
         setForm(newForm);
     }
     return (
@@ -61,19 +61,19 @@ const Signup = () => {
 
                 <div className="register">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value={form.name}
+                    <input type="text" id="name"  value={form.name}
                         onChange={e => handleChangeForm(e)} />
                     <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" value={form.phone}
+                    <input type="text" id="phone"  value={form.phone}
                         onChange={e => handleChangeForm(e)} />
                     <label for="password">password:</label>
-                    <input type="password" id="password" name="password" value={form.password} required
+                    <input type="password" id="password"  value={form.password} required
                         onChange={e => handleChangeForm(e)} />
                     <label for="repeatPassword"> Repeat Password:</label>
-                    <input type="password" id="repeatPassword" name="repeatPassword" value={form.repeatPassword} required
+                    <input type="password" id="repeatPassword"  value={form.repeatPassword} required
                         onChange={e => handleChangeForm(e)} />
                     <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" value={form.email} required
+                    <input type="text" id="email"  value={form.email} required
                         onChange={e => handleChangeForm(e)} />
                 </div>
                 <button type="submit">Regestrieren</button>
