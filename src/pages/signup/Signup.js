@@ -33,6 +33,7 @@ const Signup = () => {
         }
 
         ApiService.RegisterApi(addsignup).then((res) => {
+            console.log("res=",res)
             alert("signup submitted successfully")
             setForm({
                 name:"",
@@ -44,7 +45,7 @@ const Signup = () => {
             })
         }).catch((error) => {
 
-            console.log(error);
+            console.log("signup Error=",error);
         })
     }
 
